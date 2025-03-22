@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Docker + ElasticSearch App Interface</title>
+</head>
+
+<body>
+  <h1>Docker + ElasticSearch App Interface</h1>
+
+  <div>
+    <h2>Search Document</h2>
+    <form method="post" action="/get">
+      <input type="text" name="query" placeholder="Enter search query">
+      <button type="submit">Get</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Insert Document</h2>
+    <form method="post" action="/insert">
+      <textarea name="content" rows="5" cols="50" placeholder="Enter document content"></textarea>
+      <button type="submit">Insert</button>
+    </form>
+  </div>
+
+  <div>
+    <h2>Result:</h2>
+    <pre>
+    {{ result }}
+    </pre>
+  </div>
+</body>
+
+</html>
