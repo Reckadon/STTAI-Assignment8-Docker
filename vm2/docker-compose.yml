@@ -1,27 +1,33 @@
 version: '3.8'
 
 services:
-  backend:
-    build: ./backend
+  es-app:
+    image: 23110281/elasticsearch:latest
+    container_name: es-app
     networks:
-      - es_net
-    depends_on:
-      - elasticsearch
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+      - backend-network
+    ports:
+      - "127.0.0.1:9200:9567"
+      - "127.0.0.1:9300:9399"
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
-    networks:
-      - es_net
+      - "http.port=9567"
+    restart: unless-stopped
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - /home/23110281/assignment8/vm2/elasticsearch/data:/usr/share/elasticsearch/data
 
-volumes:
-  esdata:
-    driver: local
+  backend:
+    image: 23110281/fastapi:2
+    container_name: backend
+    networks:
+      - backend-network
+    ports:
+      - "9567:9567"
+    depends_on:
+      - es-app
+    restart: unless-stopped
 
 networks:
-  es_net:
+  backend-network:
     driver: bridge
+
